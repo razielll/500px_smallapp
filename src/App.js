@@ -3,7 +3,6 @@ import './App.css';
 
 const BASE_API_URL = 'https://api.500px.com/v1/photos';
 const FEATURE = '?feature=popular';
-const CONSUMER_KEY = '&consumer_key=P7LLhKkPAnPUpbfAXk3Jq2iDjYmCx87zgfEDxQVS';
 // const GET_PHOTOS = `https://api.500px.com/v1/photos?feature=popular&${CONSUMER_KEY}`
 
 export default class App extends React.Component {
@@ -21,10 +20,12 @@ export default class App extends React.Component {
   };
 
   componentDidMount = () => {
+    console.log(process.env);
+
     // This isn't working on localhost without a cors disable chrome extension
     // Seems it's working without a consumer_key also
     // https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino/related?hl=en
-    fetch(BASE_API_URL + FEATURE + CONSUMER_KEY)
+    fetch(BASE_API_URL + FEATURE + `&${process.env.REACT_APP_CONSUMER_KEY}`)
       .then(response => response.json())
       .then(data => {
         console.log('data', data)
