@@ -39,30 +39,58 @@ h1, h2, h3, h4, h5 {
 }
 
 .img-wrapper {
-  max-height: 220px;
   overflow: hidden;
   position: relative;
+  height: 220px;
 }
 
 .img-wrapper:hover .img-resp {
   transform: scale(1.25);
 }
 
+.img-wrapper:hover .rating, .img-wrapper:hover .user-info {}
+
 .img-wrapper:hover .rating {
+  transform: translateY(0);
+  z-index: 1;
+}
+
+.img-wrapper:hover .user-info {
+  transform: translateY(0);
+  z-index: 1;
+}
+
+.rating, .user-info {
+  transition: .25s all ease-in-out;
+  box-shadow: 0px 0px 4px black;
   display: flex;
+  position: absolute;
+  align-items: center;
+  color: white;
+  z-index: -1;
+  width: 100%;
 }
 
 .rating {
-  display: none;
-  position: absolute;
-  width: 100%;
   background-color: rgba(0, 0, 0, .45);
   height: 35px;
-  align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
-  color: white;
-  z-index: 1;
+  top: 0;
+  transform: translateY(-100px);
+}
+
+.user-info {
+  position: absolute;
+  height: 45px;
+  bottom: 0;
+  padding: 0 8px;
+  transform: translateY(100px);
+}
+
+.user-info img {
+  margin-right: 10px;
+  border-radius: 50%;
 }
 
 .img-resp {
