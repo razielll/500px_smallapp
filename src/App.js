@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Logo from './components/Logo';
 import Spinner from './components/Spinner';
+import Modal from './components/Modal';
 
 
 const BASE_API_URL = 'https://api.500px.com/v1/photos';
@@ -55,6 +56,8 @@ export default class App extends React.Component {
     try {
       this.setState({ isLoading: true }, async () => {
         const data = await this.fetchEndpoint(endPoint);
+        console.log('data', data);
+
         this.setState({ ...data });
       })
     } catch (e) {
@@ -64,31 +67,29 @@ export default class App extends React.Component {
       setTimeout(() => {
         this.setState({ isLoading: false });
       }, 750)
-
-      // this.fetchEndpoint(endPoint);
-      // This isn't working on localhost without a cors disable chrome extension
-      // Seems it's working without a consumer_key also
-      // https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino/related?hl=en
-      // fetch(endPoint)
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     console.log('data', data);
-      //     this.setState(data);
-      //   }).catch((e) => {
-      //     console.log('Failed fetching -> ', e);
-      //   });
     }
   };
 
+  handleModal = (id) => {
+    const selectedPic = this.state.photos.filter((_photo) => _photo.id === id)[0];
+    let body = document.querySelector('body');
+    body.style.overflow = 'hidden';
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.setState({ selectedPic })
+  }
 
-
+  handleCloseModal = () => {
+    this.setState({ selectedPic: null })
+    let body = document.querySelector('body');
+    body.style.overflow = 'unset';
+  }
 
   componentDidMount = () => {
     this.loadData(this.picsURL(1));
   };
 
   render() {
-    const { photos, current_page, total_pages, isLoading } = this.state;
+    const { photos, current_page, total_pages, isLoading, selectedPic } = this.state;
     return (
       <div className="App">
         <h1 className="page-title">
@@ -101,7 +102,10 @@ export default class App extends React.Component {
           <>
             <div className="images-container">
               {photos && photos.map((photo, i) => (
-                <img className="img-resp" key={photo.id + i} src={photo.image_url} alt={photo.name} title={photo.name} />
+                <div onClick={() => this.handleModal(photo.id)} className="img-wrapper" key={photo.id + i}>
+                  <div className="rating">{photo.rating}⭐</div>
+                  <img className="img-resp" src={photo.image_url} alt={photo.name} title={photo.name} />
+                </div>
               ))}
             </div>
 
@@ -109,9 +113,9 @@ export default class App extends React.Component {
               {current_page > 1 && <button onClick={this.handlePrevPage}>Back</button>}
               {current_page < total_pages && <button onClick={this.handleNextPage}>Next</button>}
             </div>
+            {selectedPic && <Modal selectedPic={selectedPic} handleCloseModal={this.handleCloseModal} />}
           </>
         }
-
       </div>
     );
   }
