@@ -1,21 +1,12 @@
 import React from 'react';
 import './App.css';
-import Loader from 'react-loader-spinner'
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+
+import Spinner from './components/Spinner';
+
 
 const BASE_API_URL = 'https://api.500px.com/v1/photos';
 // const GET_PHOTOS = `https://api.500px.com/v1/photos?feature=popular&${CONSUMER_KEY}`
 
-const Spinner = () => (
-  <div className="loader-wrapper">
-    <Loader
-      type="Grid"
-      color="#4673ce"
-      height={120}
-      width={120}
-    />
-  </div >
-)
 export default class App extends React.Component {
 
   constructor() {
@@ -32,9 +23,33 @@ export default class App extends React.Component {
   };
 
   handleNextPage = async () => {
-    const { current_page } = this.state;
+    const { current_page, total_pages } = this.state;
+    if (current_page + 1 < total_pages) {
+      this.loadData(this.picsURL(current_page + 1))
+    }
+  };
+
+  picsURL = (page) => {
+    const { feature } = this.state
+    // rpp is bugged? 21 to get 20 results
+    return `${BASE_API_URL}?feature=${feature}&consumer_key=${process.env.REACT_APP_CONSUMER_KEY}&page=${page}&rpp=21`;
+  };
+
+  fetchEndpoint = (endPoint) => {
+    fetch(endPoint)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ ...data });
+      }).catch((e) => {
+        console.log('Failed fetching -> ', e);
+      });
+  }
+
+  loadData = (endPoint) => {
     try {
-      this.setState({ isLoading: true }, () => this.loadData(this.picsURL(current_page + 1)));
+      this.setState({ isLoading: true }, () => {
+        this.fetchEndpoint(endPoint);
+      })
     } catch (e) {
       console.log('Error loading data ', e);
     }
@@ -42,41 +57,36 @@ export default class App extends React.Component {
       setTimeout(() => {
         this.setState({ isLoading: false });
       }, 750)
+
+      // this.fetchEndpoint(endPoint);
+      // This isn't working on localhost without a cors disable chrome extension
+      // Seems it's working without a consumer_key also
+      // https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino/related?hl=en
+      // fetch(endPoint)
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log('data', data);
+      //     this.setState(data);
+      //   }).catch((e) => {
+      //     console.log('Failed fetching -> ', e);
+      //   });
     }
-
-  };
-
-  picsURL = (page) => {
-    const { feature } = this.state
-    return `${BASE_API_URL}?feature=${feature}&consumer_key=${process.env.REACT_APP_CONSUMER_KEY}&page=${page}`;
-  };
-
-  loadData = async (endPoint) => {
-    // This isn't working on localhost without a cors disable chrome extension
-    // Seems it's working without a consumer_key also
-    // https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino/related?hl=en
-    fetch(endPoint)
-      .then(response => response.json())
-      .then(data => {
-        console.log('data', data);
-        this.setState(data);
-      }).catch((e) => {
-        console.log('Failed fetching -> ', e);
-      });
   }
 
 
 
+
   componentDidMount = () => {
-    // console.log(process.env);
-    this.loadData(this.picsURL(1));
+    this.loadData(this.picsURL(1))
   };
 
   render() {
     const { photos, current_page, total_pages, isLoading } = this.state;
     return (
       <div className="App">
-        500px challenge!
+        <h1 className="page-title">
+          500px challenge!
+        </h1>
 
         {isLoading ?
           <Spinner />

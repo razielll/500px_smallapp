@@ -6,8 +6,13 @@
   text-align: center;
 }
 
+.page-title {
+  color: royalblue;
+  font-size: 4.5vw;
+}
+
 .images-container {
-  padding: 12px;
+  padding: 0 12px 12px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   /* grid-template-rows: repeat(20, 22vw); */
