@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-
+import Logo from './components/Logo';
 import Spinner from './components/Spinner';
 
 
@@ -29,26 +29,33 @@ export default class App extends React.Component {
     }
   };
 
+  handlePrevPage = async () => {
+    const { current_page, total_pages } = this.state;
+    if (current_page - 1 > 0) {
+      this.loadData(this.picsURL(current_page - 1));
+    }
+  };
+
   picsURL = (page) => {
     const { feature } = this.state
     // rpp is bugged? 21 to get 20 results
     return `${BASE_API_URL}?feature=${feature}&consumer_key=${process.env.REACT_APP_CONSUMER_KEY}&page=${page}&rpp=21`;
   };
 
-  fetchEndpoint = (endPoint) => {
-    fetch(endPoint)
+  fetchEndpoint = async (endPoint) => {
+    return fetch(endPoint)
       .then(response => response.json())
-      .then(data => {
-        this.setState({ ...data });
-      }).catch((e) => {
+      .then(data => data)
+      .catch((e) => {
         console.log('Failed fetching -> ', e);
       });
-  }
+  };
 
   loadData = (endPoint) => {
     try {
-      this.setState({ isLoading: true }, () => {
-        this.fetchEndpoint(endPoint);
+      this.setState({ isLoading: true }, async () => {
+        const data = await this.fetchEndpoint(endPoint);
+        this.setState({ ...data });
       })
     } catch (e) {
       console.log('Error loading data ', e);
@@ -71,13 +78,13 @@ export default class App extends React.Component {
       //     console.log('Failed fetching -> ', e);
       //   });
     }
-  }
+  };
 
 
 
 
   componentDidMount = () => {
-    this.loadData(this.picsURL(1))
+    this.loadData(this.picsURL(1));
   };
 
   render() {
@@ -85,7 +92,7 @@ export default class App extends React.Component {
     return (
       <div className="App">
         <h1 className="page-title">
-          500px challenge!
+          <Logo /> challenge!
         </h1>
 
         {isLoading ?
@@ -99,8 +106,8 @@ export default class App extends React.Component {
             </div>
 
             <div>
-              {current_page > 1 && <button>Back</button>}
-              <button onClick={this.handleNextPage}>Next</button>
+              {current_page > 1 && <button onClick={this.handlePrevPage}>Back</button>}
+              {current_page < total_pages && <button onClick={this.handleNextPage}>Next</button>}
             </div>
           </>
         }
