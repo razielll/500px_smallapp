@@ -5,10 +5,7 @@ import Spinner from './components/Spinner';
 import Modal from './components/Modal';
 import PhotoGrid from './components/PhotoGrid';
 
-
-
 const BASE_API_URL = 'https://api.500px.com/v1/photos';
-// const GET_PHOTOS = `https://api.500px.com/v1/photos?feature=popular&${CONSUMER_KEY}`
 
 export default class App extends React.Component {
 
@@ -39,11 +36,8 @@ export default class App extends React.Component {
     }
   };
 
-  picsURL = (page) => {
-    const { feature } = this.state
-    // console.log('featuer', feature)
-    return `${BASE_API_URL}?feature=${feature}&consumer_key=${process.env.REACT_APP_CONSUMER_KEY}&page=${page}&rpp=20`;
-  };
+  // return `${BASE_API_URL}?feature=${feature}&consumer_key=${process.env.REACT_APP_CONSUMER_KEY}&page=${page}&rpp=20`;
+  picsURL = (page) => `${BASE_API_URL}?feature=${this.state.feature}&page=${page}&rpp=20`;
 
   fetchEndpoint = async (endPoint) => {
     return fetch(endPoint)
@@ -113,26 +107,17 @@ export default class App extends React.Component {
           <option value="fresh_week">This weeks</option>
         </select>
 
-        {isLoading ?
-          <Spinner />
-          :
+        {isLoading ? <Spinner /> :
           <>
-            <div className="images-container">
-              {photos && photos.length >= 1 && <PhotoGrid photos={photos} />}
-            </div>
-
-            <div className="btns-wrapper">
-              {current_page > 1 &&
-                <div className="btn-wrapper">
-                  <button className="btn prev-btn" onClick={this.handlePrevPage}>Back</button>
-                </div>}
-              {current_page < total_pages &&
-                <div className="btn-wrapper first">
-                  <button className="btn next-btn" onClick={this.handleNextPage}>Next</button>
-                </div>
-              }
-            </div>
-            {current_page >= 1 && total_pages >= 1 && <p>Page {current_page} of {total_pages}</p>}
+            {photos && photos.length >= 1 &&
+              <PhotoGrid
+                photos={photos}
+                current_page={current_page}
+                total_pages={total_pages}
+                handleNextPage={this.handleNextPage}
+                handlePrevPage={this.handlePrevPage}
+                handleModal={this.handleModal}
+              />}
             {selectedPic && <Modal selectedPic={selectedPic} handleCloseModal={this.handleCloseModal} />}
           </>
         }
