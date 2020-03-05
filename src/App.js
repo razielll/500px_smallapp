@@ -30,7 +30,7 @@ export default class App extends React.Component {
   };
 
   handlePrevPage = async () => {
-    const { current_page, total_pages } = this.state;
+    const { current_page } = this.state;
     if (current_page - 1 > 0) {
       this.loadData(this.picsURL(current_page - 1));
     }
@@ -71,7 +71,6 @@ export default class App extends React.Component {
     let body = document.querySelector('body');
     body.style.overflow = 'hidden';
     body.style.marginRight = '16px';
-
     this.setState({ selectedPic })
   };
 
