@@ -1,7 +1,6 @@
 import React from 'react';
 import './style.css';
 
-
 // We desctructure the things we need from the 'props' passed into the function
 const PhotoGrid = ({ photos, current_page, total_pages, handleNextPage, handlePrevPage, handleModal }) => {
     return (

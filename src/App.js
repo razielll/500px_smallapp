@@ -70,6 +70,8 @@ export default class App extends React.Component {
     const selectedPic = this.state.photos.filter((_photo) => _photo.id === id)[0];
     let body = document.querySelector('body');
     body.style.overflow = 'hidden';
+    body.style.marginRight = '16px';
+
     this.setState({ selectedPic })
   };
 
@@ -83,6 +85,7 @@ export default class App extends React.Component {
     this.setState({ selectedPic: null })
     let body = document.querySelector('body');
     body.style.overflow = 'unset';
+    body.style.marginRight = '0px';
   }
 
   componentDidMount = () => {
@@ -100,7 +103,7 @@ export default class App extends React.Component {
         </h1>
 
         <h4>Select a category or browse our popular pictures</h4>
-        <select onChange={e => this.handleFeatureChange(e.target.value)}>
+        <select className="select-menu" onChange={e => this.handleFeatureChange(e.target.value)}>
           <option value="popular">Popular</option>
           <option value="highest_rated">Top Rated</option>
           <option value="editors">Editors Choice</option>
@@ -122,8 +125,10 @@ export default class App extends React.Component {
               />
             )}
             {selectedPic && <Modal selectedPic={selectedPic} handleCloseModal={this.handleCloseModal} />}
+            <footer style={{ padding: '20px 0' }}>Made by <a target="_blank" href="https://github.com/razielll">Anton</a> with ❤️</footer>
           </>
         }
+
       </div>
     );
   }

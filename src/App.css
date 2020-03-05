@@ -3,17 +3,31 @@
   position: relative;
 }
 
-.App select {
+.select-menu {
   border: 2px solid royalblue;
   border-radius: 6px;
-  padding: 12px 24px;
+  padding: 12px 20px;
   cursor: pointer;
   margin-bottom: 12px;
   font-size: 20px;
+  transition: .3s all ease-in-out;
+}
+
+.select-menu:hover {
+  background-color: whitesmoke;
 }
 
 .page-title {
   color: royalblue;
   font-size: 4.5vw;
   padding-top: 20px;
+}
+
+@keyframes opacityFill {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
