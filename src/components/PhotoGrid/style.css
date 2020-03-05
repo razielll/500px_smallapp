@@ -1,3 +1,14 @@
+.images-container {
+    padding: 12px;
+    display: grid;
+    grid-template-rows: repeat(1, 220px);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 10px;
+    background-color: rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    animation: .35s opacityFill forwards;
+}
+
 .img-wrapper {
     overflow: hidden;
     position: relative;
@@ -58,4 +69,80 @@
     /* min-height: 220px; */
     /* display: block; */
     object-fit: cover;
+}
+
+.btn-wrapper {
+    display: inline-block;
+}
+
+.btn {
+    padding: 10px 20px;
+    width: 155px;
+    border: 0;
+    background-image: linear-gradient(to right, rgb(25, 53, 26), rgb(22, 187, 118));
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 6px;
+    margin: 10px;
+    cursor: pointer;
+    transition: .25s all ease-in-out;
+    position: relative;
+    margin: 10px 40px;
+}
+
+.next-btn {
+    text-align: left;
+}
+
+.prev-btn {
+    text-align: right;
+}
+
+.btn-wrapper .next-btn::after {
+    transition: .25s all ease-in-out;
+    position: absolute;
+    content: '>';
+    right: 40px;
+}
+
+.btn-wrapper:hover .next-btn::after {
+    right: 10px;
+}
+
+.btn-wrapper .prev-btn::before {
+    transition: .25s all ease-in-out;
+    position: absolute;
+    content: '<';
+    left: 40px;
+}
+
+.btn-wrapper:hover .btn.prev-btn::before {
+    left: 10px;
+}
+
+.btns-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@keyframes opacityFill {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 660px) {
+    .images-container {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+}
+
+@media (max-width: 486px) {
+    .btn-wrapper.first {
+        order: -1;
+    }
 }

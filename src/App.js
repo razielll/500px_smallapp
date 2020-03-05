@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
 import Logo from './components/Logo';
 import Spinner from './components/Spinner';
 import Modal from './components/Modal';
 import PhotoGrid from './components/PhotoGrid';
+import './App.css';
 
 const BASE_API_URL = 'https://api.500px.com/v1/photos';
 
@@ -90,6 +90,8 @@ export default class App extends React.Component {
   };
 
   render() {
+
+
     const { photos, current_page, total_pages, isLoading, selectedPic } = this.state;
     return (
       <div className="App">
@@ -109,7 +111,7 @@ export default class App extends React.Component {
 
         {isLoading ? <Spinner /> :
           <>
-            {photos && photos.length >= 1 &&
+            {photos && photos.length >= 1 && (
               <PhotoGrid
                 photos={photos}
                 current_page={current_page}
@@ -117,7 +119,8 @@ export default class App extends React.Component {
                 handleNextPage={this.handleNextPage}
                 handlePrevPage={this.handlePrevPage}
                 handleModal={this.handleModal}
-              />}
+              />
+            )}
             {selectedPic && <Modal selectedPic={selectedPic} handleCloseModal={this.handleCloseModal} />}
           </>
         }
