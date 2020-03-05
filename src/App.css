@@ -19,15 +19,12 @@ h1, h2, h3, h4, h5 {
 }
 
 .images-container {
-  padding: 0 12px 12px;
+  padding: 12px;
   display: grid;
-  /* grid-template-columns: repeat(4, 1fr); */
   grid-template-rows: repeat(1, 220px);
-  /* grid-template-rows: auto; */
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   grid-gap: 10px;
-  /* grid-auto-flow: dense; */
-  /* grid-auto-flow: row; */
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 660px) {
@@ -108,28 +105,56 @@ h1, h2, h3, h4, h5 {
 
 .btn {
   padding: 10px 20px;
-  width: 132px;
+  width: 155px;
   border: 0;
   background-image: linear-gradient(to right, rgb(25, 53, 26), rgb(22, 187, 118));
   color: white;
   font-size: 1.5rem;
   border-radius: 6px;
   margin: 10px;
-  transition: .25s all ease-in-out;
   cursor: pointer;
-}
-
-.btn-wrapper:hover .btn {
-  /* transform: translateY(2px); */
-}
-
-.btn-wrapper .btn::after {
   transition: .25s all ease-in-out;
-  content: '>';
-  margin-left: 8px;
-  padding-right: 130px;
+  position: relative;
+  margin: 10px 40px;
 }
 
-.btn-wrapper:hover .btn::after {
-  margin-left: 20px;
+.next-btn {
+  text-align: left;
+  order: -1;
+}
+
+.prev-btn {
+  text-align: right;
+}
+
+.btn-wrapper .next-btn::after {
+  transition: .25s all ease-in-out;
+  position: absolute;
+  content: '>';
+  right: 40px;
+}
+
+.btn-wrapper:hover .next-btn::after {
+  right: 10px;
+}
+
+.btn-wrapper .prev-btn::before {
+  transition: .25s all ease-in-out;
+  position: absolute;
+  content: '<';
+  left: 40px;
+}
+
+.btn-wrapper:hover .btn.prev-btn::before {
+  left: 10px;
+}
+
+.btns-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.first {
+  order: -1;
 }

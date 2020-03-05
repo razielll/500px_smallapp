@@ -111,18 +111,18 @@ export default class App extends React.Component {
               ))}
             </div>
 
-            <div>
+            <div className="btns-wrapper">
               {current_page > 1 &&
                 <div className="btn-wrapper">
                   <button className="btn prev-btn" onClick={this.handlePrevPage}>Back</button>
                 </div>}
               {current_page < total_pages &&
-                <div className="btn-wrapper">
+                <div className="btn-wrapper first">
                   <button className="btn next-btn" onClick={this.handleNextPage}>Next</button>
                 </div>
               }
-              {current_page >= 1 && total_pages >= 1 && <p>Page {current_page} of {total_pages}</p>}
             </div>
+            {current_page >= 1 && total_pages >= 1 && <p>Page {current_page} of {total_pages}</p>}
             {selectedPic && <Modal selectedPic={selectedPic} handleCloseModal={this.handleCloseModal} />}
           </>
         }
