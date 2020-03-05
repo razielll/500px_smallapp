@@ -3,6 +3,8 @@ import './App.css';
 import Logo from './components/Logo';
 import Spinner from './components/Spinner';
 import Modal from './components/Modal';
+import PhotoGrid from './components/PhotoGrid';
+
 
 
 const BASE_API_URL = 'https://api.500px.com/v1/photos';
@@ -116,14 +118,7 @@ export default class App extends React.Component {
           :
           <>
             <div className="images-container">
-              {photos && photos.map((photo, i) => (
-                <div onClick={() => this.handleModal(photo.id)} className="img-wrapper" key={Math.random() + i}>
-                  <div className="rating">{photo.rating}⭐</div>
-                  <img className="img-resp" src={photo.image_url} alt={photo.name} title={photo.name} />
-                  <div className="user-info"><img src={photo.user.userpic_https_url} height="32" width="32" /> {photo.user.username} </div>
-
-                </div>
-              ))}
+              {photos && photos.length >= 1 && <PhotoGrid photos={photos} />}
             </div>
 
             <div className="btns-wrapper">
