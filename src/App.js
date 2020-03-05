@@ -39,8 +39,8 @@ export default class App extends React.Component {
 
   picsURL = (page) => {
     const { feature } = this.state
-    // rpp is bugged? 21 to get 20 results
-    return `${BASE_API_URL}?feature=${feature}&consumer_key=${process.env.REACT_APP_CONSUMER_KEY}&page=${page}&rpp=21`;
+    // console.log('featuer', feature)
+    return `${BASE_API_URL}?feature=${feature}&consumer_key=${process.env.REACT_APP_CONSUMER_KEY}&page=${page}&rpp=20`;
   };
 
   fetchEndpoint = async (endPoint) => {
@@ -74,8 +74,13 @@ export default class App extends React.Component {
     const selectedPic = this.state.photos.filter((_photo) => _photo.id === id)[0];
     let body = document.querySelector('body');
     body.style.overflow = 'hidden';
-    // window.scrollTo({ top: 0, behavior: 'smooth' });
     this.setState({ selectedPic })
+  };
+
+  handleFeatureChange = (category_value) => {
+    this.setState({ feature: category_value }, () => {
+      this.loadData(this.picsURL(1));
+    })
   }
 
   handleCloseModal = () => {
@@ -96,13 +101,23 @@ export default class App extends React.Component {
           <Logo /> challenge!
         </h1>
 
+        <h4>Select a category or browse our popular pictures</h4>
+        <select onChange={e => this.handleFeatureChange(e.target.value)}>
+          <option value="popular">Popular</option>
+          <option value="highest_rated">Top Rated</option>
+          <option value="editors">Editors Choice</option>
+          <option value="fresh_today">Today's</option>
+          <option value="fresh_yesterday">Yesterday's</option>
+          <option value="fresh_week">This weeks</option>
+        </select>
+
         {isLoading ?
           <Spinner />
           :
           <>
             <div className="images-container">
               {photos && photos.map((photo, i) => (
-                <div onClick={() => this.handleModal(photo.id)} className="img-wrapper" key={photo.id + i}>
+                <div onClick={() => this.handleModal(photo.id)} className="img-wrapper" key={Math.random() + i}>
                   <div className="rating">{photo.rating}⭐</div>
                   <img className="img-resp" src={photo.image_url} alt={photo.name} title={photo.name} />
                   <div className="user-info"><img src={photo.user.userpic_https_url} height="32" width="32" /> {photo.user.username} </div>

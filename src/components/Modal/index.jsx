@@ -35,7 +35,6 @@ export default class Modal extends React.Component {
     render() {
         const { selectedPic } = this.props;
         const { isFullText, isLong } = this.state
-        console.log('selectedPic', selectedPic)
         return (
             <div className="modal-wrapper" onClick={this.closeModal}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
