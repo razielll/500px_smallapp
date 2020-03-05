@@ -42,8 +42,8 @@ export default class Modal extends React.Component {
                     <h2>{selectedPic.name}</h2>
                     {isLong && !isFullText ?
                         <>
-                            <h5>{this.state.displayedText}</h5>
-                            <span onClick={this.toggleText}>read more...</span>
+                            <h5>{this.state.displayedText}<span className="read-more" onClick={this.toggleText}>read more...</span></h5>
+
                         </>
                         :
                         <h5>{this.state.originalText}</h5>

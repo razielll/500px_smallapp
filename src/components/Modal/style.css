@@ -10,6 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 12px;
 }
 
 .modal-content {
@@ -17,7 +18,7 @@
     background: white;
     border-radius: 8px;
     border: 1px solid darkgray;
-    width: 440px;
+    min-width: 440px;
     max-width: 100%;
     min-height: 440px;
     padding: 10px;
@@ -30,4 +31,12 @@
 
 .modal-content img {
     max-width: 100%;
+}
+
+.read-more {
+    margin-left: 10px;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 14px;
 }

@@ -101,3 +101,35 @@ h1, h2, h3, h4, h5 {
   /* display: block; */
   object-fit: cover;
 }
+
+.btn-wrapper {
+  display: inline-block;
+}
+
+.btn {
+  padding: 10px 20px;
+  width: 132px;
+  border: 0;
+  background-image: linear-gradient(to right, rgb(25, 53, 26), rgb(22, 187, 118));
+  color: white;
+  font-size: 1.5rem;
+  border-radius: 6px;
+  margin: 10px;
+  transition: .25s all ease-in-out;
+  cursor: pointer;
+}
+
+.btn-wrapper:hover .btn {
+  /* transform: translateY(2px); */
+}
+
+.btn-wrapper .btn::after {
+  transition: .25s all ease-in-out;
+  content: '>';
+  margin-left: 8px;
+  padding-right: 130px;
+}
+
+.btn-wrapper:hover .btn::after {
+  margin-left: 20px;
+}
